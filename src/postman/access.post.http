@@ -1,0 +1,176 @@
+@url_dev=http://localhost:3020/v1/api
+
+# POST  {{url_dev}}/shop/sign-up
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+
+# {
+#   "name": "Shop Agricultural",
+#   "email": "hophuc1004@gmail.com",
+#   "password": "Phuc101297@"
+# }
+
+# POST  {{url_dev}}/auth/shop/login
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+
+# {
+#   "email": "hophuc1004@gmail.com",
+#   "password": "Phuc101297@"
+# }
+
+# POST  {{url_dev}}/shop/logout
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+# x-client-id: 657741c97ab881f29c763f69
+# authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc3NDFjOTdhYjg4MWYyOWM3NjNmNjkiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAyMzc2MzIyLCJleHAiOjE3MDI1NDkxMjJ9.qjgUAuEztN1eCpNB8ZKCrwyk4fb02LhS-0Wid9foU74
+
+
+# POST  {{url_dev}}/shop/handle-refresh-token
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+# x-client-id: 6579d2fddf860ac060a9948a
+# x-r-token-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc5ZDJmZGRmODYwYWMwNjBhOTk0OGEiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAyNDgzMDg5LCJleHAiOjE3MDMwODc4ODl9.JIrbId-n2vTRnMrmgcF_jU-KkjnLtiSovzwYPvlGGgs
+
+# POST  {{url_dev}}/product
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+# x-client-id: 6579d2fddf860ac060a9948a
+# x-r-token-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc5ZDJmZGRmODYwYWMwNjBhOTk0OGEiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAyNDg3NjA4LCJleHAiOjE3MDMwOTI0MDh9.1PJwk2t2zWWndM1hZTyJb6VipvaXkwJDxLSJ18yh0XM
+
+# {
+#   "product_name": "New Hat",
+#   "product_thumb": "product_thumb",
+#   "product_description": "High-quality ck hat",
+#   "product_price": 30,
+#   "product_type": "Clothes",
+#   "product_shop": "6579d2fddf860ac060a9948a",
+#   "product_attributes": {
+#     "brand": "CK",
+#     "size": "L",
+#     "material": "cloth"
+#   },
+#   "product_quantity": 3
+# }
+
+# POST  {{url_dev}}/product
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+# x-client-id: 6579d2fddf860ac060a9948a
+# x-r-token-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc5ZDJmZGRmODYwYWMwNjBhOTk0OGEiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAyNDg3NjA4LCJleHAiOjE3MDMwOTI0MDh9.1PJwk2t2zWWndM1hZTyJb6VipvaXkwJDxLSJ18yh0XM
+
+# {
+#   "product_name": "iPhone 14 64GB",
+#   "product_description": "New model of apple",
+#   "product_price": 500,
+#   "product_type": "Electronics",
+#   "product_thumb": "product_thumb",
+#   "product_quantity": 3,
+#   "product_attributes": {
+#     "manufacturer": "Apple",
+#     "model": "iPhone 14",
+#     "color": "Gold"
+#   }
+# }
+
+# POST  {{url_dev}}/product
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+# x-client-id: 6579d2fddf860ac060a9948a
+# x-r-token-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc5ZDJmZGRmODYwYWMwNjBhOTk0OGEiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAyNDg3NjA4LCJleHAiOjE3MDMwOTI0MDh9.1PJwk2t2zWWndM1hZTyJb6VipvaXkwJDxLSJ18yh0XM
+
+# {
+#   "product_name": "Furniture 15",
+#   "product_description": "New model of samsung",
+#   "product_price": 1000,
+#   "product_type": "Furnitures",
+#   "product_thumb": "product_thumb",
+#   "product_quantity": 2,
+#   "product_attributes": {
+#     "brand": "SSG",
+#     "size": "L",
+#     "material": "Chip"
+#   }
+# }
+
+# POST  {{url_dev}}/product
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+# x-client-id: 6579d2fddf860ac060a9948a
+# x-r-token-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc5ZDJmZGRmODYwYWMwNjBhOTk0OGEiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAyNDg3NjA4LCJleHAiOjE3MDMwOTI0MDh9.1PJwk2t2zWWndM1hZTyJb6VipvaXkwJDxLSJ18yh0XM
+
+# {
+#   "product_name": "Băng Quấn Bảo Vệ Khuỷu Tay Co Giãn Tốt Tiện Dụng Khi Chơi Thể Thao Cho Nam",
+#   "product_description": "Đây là băng quấn bảo vệ khuỷu tay.",
+#   "product_price": 1000,
+#   "product_type": "Clothes",
+#   "product_thumb": "product_thumb",
+#   "product_quantity": 50,
+#   "product_attributes": {
+#     "brand": "Coolmate",
+#     "size": "XL",
+#     "material": "Cao su"
+#   }
+# }
+
+# GET  {{url_dev}}/product/drafts/all
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+# x-client-id: 6579d2fddf860ac060a9948a
+# authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc5ZDJmZGRmODYwYWMwNjBhOTk0OGEiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAyNjI0ODUyLCJleHAiOjE3MDI3OTc2NTJ9.JPzuKIZe4Te8k_cGu1huxTWPL7KQwypi41gpvq9LJH0
+
+# GET  {{url_dev}}/product/published/all
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+# x-client-id: 6579d2fddf860ac060a9948a
+# authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc5ZDJmZGRmODYwYWMwNjBhOTk0OGEiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAyNjI0ODUyLCJleHAiOjE3MDI3OTc2NTJ9.JPzuKIZe4Te8k_cGu1huxTWPL7KQwypi41gpvq9LJH0
+
+# PUT  {{url_dev}}/product/publish/657b286d56d171ecbb6447c2
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+# x-client-id: 6579d2fddf860ac060a9948a
+# authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc5ZDJmZGRmODYwYWMwNjBhOTk0OGEiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAyNjI0ODUyLCJleHAiOjE3MDI3OTc2NTJ9.JPzuKIZe4Te8k_cGu1huxTWPL7KQwypi41gpvq9LJH0
+
+# GET  {{url_dev}}/product
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+
+# GET  {{url_dev}}/product/657b286d56d171ecbb6447c2
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+
+# PATCH {{url_dev}}/product/657b286d56d171ecbb6447c2
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+# x-client-id: 6579d2fddf860ac060a9948a
+# authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc5ZDJmZGRmODYwYWMwNjBhOTk0OGEiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAzMDAyODExLCJleHAiOjE3MDMxNzU2MTF9.wjXj1aat6mQhSd2vF7xHK02hSTlRinnfoYjHH_oy7BI
+
+# {
+#   "product_type": "Clothes",
+#   "product_name": "Băng Quấn Bảo Vệ Khuỷu Tay Co Giãn Tốt Tiện Dụng Khi Chơi Thể Thao Cho Nam",
+#   "product_attributes": {
+#      "brand": "Coolmate",
+#      "size": "XX"
+#    },
+#   "product_quantity": null
+# }
+
+POST  {{url_dev}}/product
+Content-Type: application/json
+x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+x-client-id: 6579d2fddf860ac060a9948a
+x-r-token-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc5ZDJmZGRmODYwYWMwNjBhOTk0OGEiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAzMDU1MTMyLCJleHAiOjE3MDM2NTk5MzJ9.udeATBcxiSQb-8y1I7RfTQ8KPHpBCJgUq0mHoP_NaOE
+
+{
+  "product_name": "Áo thun polo 001",
+  "product_thumb": "product_thumb",
+  "product_description": "Áo chất thun cotton co dãn nhẹ, vải mềm, thấm mồ hôi, không xù lông, không ra màu",
+  "product_price": 129000,
+  "product_type": "Clothes",
+  "product_quantity": 80,
+  "product_attributes": {
+    "brand": "Coolmate",
+    "size": "XL",
+    "material": "Cotton"
+  }
+}
