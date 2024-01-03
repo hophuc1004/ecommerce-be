@@ -3,6 +3,7 @@
 
 const { isNull, isArray } = require('lodash');
 const pick = require('lodash/pick');
+const { Types } = require('mongoose');
 
 const getIntoData = ({ fields = [], object = {} }) => {
   const result = pick(object, fields);
@@ -16,6 +17,8 @@ const getSelectData = (select = []) => {
 const unGetSelectData = (select = []) => {
   return Object.fromEntries(select.map(ele => [ele, 0]));
 }
+
+const convertToObjectIdMongoDb = (id) => new Types.ObjectId(id);
 
 const removeUndefinedObject = (object = {}) => {
   Object.keys(object).forEach(key => {
@@ -45,5 +48,6 @@ module.exports = {
   getSelectData,
   unGetSelectData,
   removeUndefinedObject,
-  updateNestedObjectParser
+  updateNestedObjectParser,
+  convertToObjectIdMongoDb
 }
