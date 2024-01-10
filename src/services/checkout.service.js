@@ -1,9 +1,11 @@
 'use strict'
 
 const { BadRequestError } = require("../core/error.response");
+const orderModel = require("../models/order.model");
 const { findCartById } = require("../models/repositories/cart.repo");
 const { checkProductByServer } = require("../models/repositories/product.repo");
 const { getDiscountAmount } = require("./discount.service");
+const { acquireLock, releaseLock } = require("./redis.service");
 
 class CheckoutService {
 
@@ -133,9 +135,69 @@ class CheckoutService {
 
     console.log(`[1]::::: `, products);
 
+    const arrAcquireProduct = [];
+
     for (let i = 0; i < products.length; i++) {
       const { productId, quantity } = products[i];
+
+      const keyLock = await acquireLock({ productId, quantity, cartId });
+      arrAcquireProduct.push(keyLock ? true : false);
+
+      if (keyLock) {
+        await releaseLock(keyLock)
+      }
     }
+
+    // check if have one product het hang trong kho
+    if (arrAcquireProduct.includes(false)) {
+      throw new BadRequestError(`Some product have been updated, please back to your cart again!`);
+    };
+
+    const newOrder = await orderModel.create({
+      oder_userId: userId,
+      order_checkout: checkoutOrder,
+      order_shipping: user_address,
+      order_payment: user_payment,
+      order_products: shop_order_ids_new
+    });
+
+    // case : if insert success -> remove product in cart user
+    if (newOrder) {
+      // remove product in cart
+    }
+
+    return order;
+  }
+
+  /*
+    - Query orders [User]
+  */
+
+  static async getOrderByUser() {
+
+  }
+
+  /*
+- Query orders detail [User]
+*/
+
+  static async getOneOrderByUser() {
+
+  }
+
+  /*
+- Cancel order [User]
+*/
+
+  static async cancelOrderByUser() {
+
+  }
+
+  /*
+- Update order status [Shop || Admin]
+*/
+
+  static async updateOrderStatusByShop() {
 
   }
 
