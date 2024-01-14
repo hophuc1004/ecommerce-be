@@ -132,9 +132,6 @@ class CheckoutService {
     // check again one more xem co vuot ton kho hay khong?
 
     const products = shop_order_ids_new.flatMap(order => order.item_products);
-
-    console.log(`[1]::::: `, products);
-
     const arrAcquireProduct = [];
 
     for (let i = 0; i < products.length; i++) {

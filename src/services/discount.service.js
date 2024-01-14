@@ -148,7 +148,6 @@ class DiscountService {
       model: discountModel
     })
 
-    console.log('arrDiscount:', arrDiscount)
     return arrDiscount;
   }
 
@@ -173,11 +172,6 @@ class DiscountService {
   */
 
   static async getDiscountAmount({ codeId, userId, shopId, products }) {
-    console.log('products:', products)
-    console.log('shopId:', shopId)
-    console.log('userId:', userId)
-    console.log('codeId:', codeId)
-
     const foundDiscountCode = await checkDiscountExists({
       model: discountModel,
       filter: {

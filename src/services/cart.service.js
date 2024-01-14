@@ -29,7 +29,6 @@ class CartService {
 
   static async updateUserCartQuantity({ userId, product }) {
     const { productId, quantity } = product;
-    console.log('product:', product)
     const query = {
       cart_userId: userId,
       'cart_products.productId': productId,
@@ -47,10 +46,8 @@ class CartService {
   }
 
   static async addToCart({ userId, product = {} }) {
-    console.log('product11111:', product)
     // check cart exist
     const userCart = await cartModel.findOne({ cart_userId: userId });
-    console.log('userCart:', userCart)
 
     if (!userCart) {
       // create cart for user
@@ -64,7 +61,6 @@ class CartService {
     }
 
     if (userCart.cart_products.find(productItem => productItem.productId !== product.productId)) {
-      console.log('aaaaaa');
       userCart.cart_products.push(product);
       return userCart.save()
     }

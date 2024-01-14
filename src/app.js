@@ -17,6 +17,11 @@ app.use(compression()); // use for decrease size of file to save cost for db wit
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// test pub.sub redis
+// require('./tests/inventory.test');
+// const productTest = require('./tests/product.test');
+// productTest.purchaseProduct('product:0001', 10);
+
 // init db
 require('./dbs/init.mongodb');
 

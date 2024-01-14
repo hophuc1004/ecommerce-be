@@ -18,7 +18,6 @@ const acquireLock = async (productId, quantity, cartId) => {
   for (let i = 0; i < retryTimes; i++) {
     // create a key, person who keep key is going to pay order
     const result = await setNXAsync(key, expireTime);
-    console.log('result:', result)
 
     if (result === 1) {
       // thao tac voi inventory

@@ -1,14 +1,14 @@
 @url_dev=http://localhost:3020/v1/api
 
-# POST  {{url_dev}}/shop/sign-up
-# Content-Type: application/json
-# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+POST  {{url_dev}}/shop/sign-up
+Content-Type: application/json
+x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
 
-# {
-#   "name": "Shop Agricultural",
-#   "email": "hophuc1004@gmail.com",
-#   "password": "Phuc101297@"
-# }
+{
+  "name": "Shop Agricultural",
+  "email": "hophuc1004@gmail.com",
+  "password": "Phuc101297@"
+}
 
 # POST  {{url_dev}}/auth/shop/login
 # Content-Type: application/json
@@ -155,22 +155,22 @@
 #   "product_quantity": null
 # }
 
-POST  {{url_dev}}/product
-Content-Type: application/json
-x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
-x-client-id: 6579d2fddf860ac060a9948a
-x-r-token-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc5ZDJmZGRmODYwYWMwNjBhOTk0OGEiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAzMDU1MTMyLCJleHAiOjE3MDM2NTk5MzJ9.udeATBcxiSQb-8y1I7RfTQ8KPHpBCJgUq0mHoP_NaOE
+# POST  {{url_dev}}/product
+# Content-Type: application/json
+# x-api-key: e1eca3fb77c98cc4c65a6e31acdc31d6e36986968080a6df25524b6a85bdfc799306d833d4529b6923c92fe570fdb192265ebaaf31f043ea02f3bf23cc182852
+# x-client-id: 6579d2fddf860ac060a9948a
+# x-r-token-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc5ZDJmZGRmODYwYWMwNjBhOTk0OGEiLCJlbWFpbCI6ImhvcGh1YzEwMDRAZ21haWwuY29tIiwiaWF0IjoxNzAzMDU1MTMyLCJleHAiOjE3MDM2NTk5MzJ9.udeATBcxiSQb-8y1I7RfTQ8KPHpBCJgUq0mHoP_NaOE
 
-{
-  "product_name": "Áo thun polo 001",
-  "product_thumb": "product_thumb",
-  "product_description": "Áo chất thun cotton co dãn nhẹ, vải mềm, thấm mồ hôi, không xù lông, không ra màu",
-  "product_price": 129000,
-  "product_type": "Clothes",
-  "product_quantity": 80,
-  "product_attributes": {
-    "brand": "Coolmate",
-    "size": "XL",
-    "material": "Cotton"
-  }
-}
+# {
+#   "product_name": "Áo thun polo 001",
+#   "product_thumb": "product_thumb",
+#   "product_description": "Áo chất thun cotton co dãn nhẹ, vải mềm, thấm mồ hôi, không xù lông, không ra màu",
+#   "product_price": 129000,
+#   "product_type": "Clothes",
+#   "product_quantity": 80,
+#   "product_attributes": {
+#     "brand": "Coolmate",
+#     "size": "XL",
+#     "material": "Cotton"
+#   }
+# }
