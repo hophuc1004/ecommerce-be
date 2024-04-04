@@ -3,6 +3,7 @@ const { countConnect } = require("../helpers/check.connect");
 const { db: { host, name, port } } = require('../configs/config.mongodb');
 
 const connectString = `mongodb://${host}:${port}/${name}`;
+console.log('connectString:', connectString)
 
 class Database {
   constructor() {
@@ -18,7 +19,10 @@ class Database {
     mongoose.connect(connectString).then(_ => {
       console.log(`Connect Mongodb Success PRO `, countConnect());
     })
-      .catch(err => console.log(`Error Connect!`))
+      .catch(err => {
+        console.log('error:::::::: ', err.message);
+        console.log(`Error Connect!`)
+      })
   }
 
   static getInstance() {
