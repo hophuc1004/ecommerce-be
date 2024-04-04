@@ -2,8 +2,7 @@
 
 const { BadRequestError } = require("../core/error.response")
 const { SuccessResponse } = require("../core/success.response")
-const { sListNotiByUser } = require("../services/notification.service")
-const { sUploadImageFromUrl, sUploadImageFromLocal } = require("../services/upload.service")
+const { sUploadImageFromUrl, sUploadImageFromLocal, sUploadMultipleImageFromLocal } = require("../services/upload.service")
 
 class UploadController {
   uploadFileWithUrl = async (req, res, next) => {
@@ -23,6 +22,20 @@ class UploadController {
       message: 'Upload file local with multer success!',
       metadata: await sUploadImageFromLocal({
         path: file.path,
+      })
+    }).send(res)
+  }
+
+  uploadMultipleFileLocalWithMulter = async (req, res, next) => {
+    const { files } = req;
+    if (!files) {
+      throw BadRequestError('Files missing!')
+    }
+
+    new SuccessResponse({
+      message: 'Upload multiple file success!',
+      metadata: await sUploadMultipleImageFromLocal({
+        files
       })
     }).send(res)
   }
