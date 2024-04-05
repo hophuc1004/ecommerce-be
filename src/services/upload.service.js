@@ -15,7 +15,7 @@ const sUploadImageFromUrl = async () => {
     })
     return result
   } catch (error) {
-    console.log('error:::::: ', error.message);
+    console.log('errorUploadFromUrl:::::: ', error.message);
   }
 }
 
@@ -30,18 +30,52 @@ const sUploadImageFromLocal = async ({ path, folderName = 'product/1004' }) => {
     return {
       image_url: result.secure_url,
       shopId: 1004,
-      thumb_url: await cloudinary.url(result.public_id, {
+      thumb_url: cloudinary.url(result.public_id, {
         height: 100,
         width: 100,
         format: 'jpg'
       })
     }
   } catch (error) {
-    console.log('error:::::: ', error.message);
+    console.log('errorUploadSingleLocal:::::: ', error.message);
+  }
+}
+
+// 3. Upload multiple image from local
+const sUploadMultipleImageFromLocal = async ({
+  files, folderName = 'product/1004'
+}) => {
+  try {
+    if (!files.length) return;
+    const uploadUrls = [];
+
+    for (const file of files) {
+      const result = await cloudinary.uploader.upload(file.path, {
+        folder: folderName
+      })
+
+      uploadUrls.push({
+        image_url: result.secure_url,
+        shopId: 1004,
+        thumb_url: cloudinary.url(result.public_id, {
+          height: 100,
+          width: 100,
+          format: 'jpg'
+        })
+      })
+    }
+
+    console.log('uploadUrls::: ', uploadUrls);
+
+    return uploadUrls;
+
+  } catch (error) {
+    console.log('errorUploadMultipleLocal:::: ', error.message);
   }
 }
 
 module.exports = {
   sUploadImageFromUrl,
-  sUploadImageFromLocal
+  sUploadImageFromLocal,
+  sUploadMultipleImageFromLocal
 }
