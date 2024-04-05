@@ -1,6 +1,9 @@
 'use strict'
 
+const { PutObjectCommand } = require("@aws-sdk/client-s3");
 const cloudinary = require("../configs/cloudinary.config");
+const s3Config = require("../configs/s3.config");
+const crypto = require('crypto');
 
 // 1. Upload from url image
 
@@ -65,8 +68,6 @@ const sUploadMultipleImageFromLocal = async ({
       })
     }
 
-    console.log('uploadUrls::: ', uploadUrls);
-
     return uploadUrls;
 
   } catch (error) {
@@ -74,8 +75,32 @@ const sUploadMultipleImageFromLocal = async ({
   }
 }
 
+// 4. Upload service using S3 client
+const uploadImageToS3FromLocal = async ({ file }) => {
+  try {
+
+    const randomImageName = () => crypto.randomBytes(16).toString('hex');
+
+    const command = new PutObjectCommand({
+      Bucket: process.env.AWS_BUCKET_S3_NAME,
+      Key: randomImageName(),
+      Body: file.buffer, // Body of command to upload image to s3 is buffer, and buffer exist in memoryStorage of multer
+      ContentType: 'image/jpeg'
+    })
+
+    const result = await s3Config.send(command);
+
+    return result;
+
+  } catch (error) {
+    console.log('errorUploadS3::::: ', error.message);
+  }
+}
+
+
 module.exports = {
   sUploadImageFromUrl,
   sUploadImageFromLocal,
-  sUploadMultipleImageFromLocal
+  sUploadMultipleImageFromLocal,
+  uploadImageToS3FromLocal
 }

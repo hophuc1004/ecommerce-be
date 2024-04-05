@@ -2,7 +2,7 @@
 
 const { BadRequestError } = require("../core/error.response")
 const { SuccessResponse } = require("../core/success.response")
-const { sUploadImageFromUrl, sUploadImageFromLocal, sUploadMultipleImageFromLocal } = require("../services/upload.service")
+const { sUploadImageFromUrl, sUploadImageFromLocal, sUploadMultipleImageFromLocal, uploadImageToS3FromLocal } = require("../services/upload.service")
 
 class UploadController {
   uploadFileWithUrl = async (req, res, next) => {
@@ -36,6 +36,20 @@ class UploadController {
       message: 'Upload multiple file success!',
       metadata: await sUploadMultipleImageFromLocal({
         files
+      })
+    }).send(res)
+  }
+
+  uploadFileLocalToS3 = async (req, res, next) => {
+    const { file } = req;
+    if (!file) {
+      throw BadRequestError('File missing!')
+    }
+
+    new SuccessResponse({
+      message: 'Upload file to s3 success!',
+      metadata: await uploadImageToS3FromLocal({
+        file
       })
     }).send(res)
   }
