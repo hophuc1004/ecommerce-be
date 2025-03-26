@@ -24,7 +24,7 @@ class CartService {
       }
     };
     const options = { upsert: true, new: true };
-    return await cartModel.findOneAndUpdate(query, updateOrInsert, options);
+    return await cartModel.findOneAndUpdate(query, updateOrInsert, options).lean();
   }
 
   static async updateUserCartQuantity({ userId, product }) {

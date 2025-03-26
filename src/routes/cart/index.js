@@ -1,7 +1,7 @@
 const express = require('express');
 const cartController = require('../../controllers/cart.controller');
 const { asyncHandler } = require('../../helpers/asyncHandler');
-const { authentication } = require('../../auth/authUtils');
+// const { authentication } = require('../../auth/authUtils');
 const router = express.Router();
 
 // authentication

@@ -1,6 +1,6 @@
 'use strict'
 
-const { findById } = require("../services/apiKey.service");
+const ApiKeyService = require("../services/apiKey.service");
 
 const HEADER = {
   API_KEY: 'x-api-key',
@@ -8,34 +8,26 @@ const HEADER = {
 }
 
 const apiKey = async (req, res, next) => {
-  try {
-    const key = req.headers[HEADER.API_KEY]?.toString();
+  const key = req.headers[HEADER.API_KEY]?.toString();
 
-    if (!key) {
-      return res.status(403).json({
-        message: 'Forbidden Error'
-      })
-    }
-
-    // check objKey
-    const objectKey = await findById(key);
-
-    if (!objectKey) {
-      return res.status(403).json({
-        message: `Forbidden Error`
-      })
-    }
-
-    req.objectKey = objectKey;
-
-    return next();
-  } catch (error) {
-    return {
-      code: 'xxx',
-      message: error.message,
-      status: 'error'
-    }
+  if (!key) {
+    return res.status(403).json({
+      message: 'Forbidden Error'
+    })
   }
+
+  // check objKey
+  const objectKey = await ApiKeyService.findApiKeyById(key);
+
+  if (!objectKey) {
+    return res.status(403).json({
+      message: `Forbidden Error`
+    })
+  }
+
+  req.objectKey = objectKey;
+
+  return next();
 }
 
 const checkKeyPermission = (permission) => {

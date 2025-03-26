@@ -22,13 +22,13 @@ class SuccessResponse {
   }
 }
 
-class OK extends SuccessResponse {
+class OK_RESPONSE extends SuccessResponse {
   constructor({ message, metadata }) {
     super({ message, metadata })
   }
 }
 
-class CREATED extends SuccessResponse {
+class CREATED_RESPONSE extends SuccessResponse {
   constructor({ message, statusCode = StatusCode.CREATED, reasonStatusCode = ReasonStatusCode.CREATED, metadata, options = {} }) {
     super({ message, statusCode, reasonStatusCode, metadata })
     this.options = options
@@ -36,7 +36,7 @@ class CREATED extends SuccessResponse {
 }
 
 module.exports = {
-  OK,
-  CREATED,
+  OK_RESPONSE,
+  CREATED_RESPONSE,
   SuccessResponse
 }

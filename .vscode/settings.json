@@ -1,0 +1,21 @@
+{
+  "eslint.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.run": "onType", // Lint as you type
+  "eslint.format.enable": true, // Optional
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit" // Fix on save
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "files.associations": {
+    "*.js": "javascript"
+  },
+  "eslint.workingDirectories": ["./"], // Ensure ESLint looks in project root
+  "eslint.nodePath": "./node_modules", // Point to local node_modules
+  "eslint.debug": true // Enable debug logs
+}

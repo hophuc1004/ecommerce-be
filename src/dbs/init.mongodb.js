@@ -11,13 +11,13 @@ class Database {
   }
   // connect
   connect(type = 'mongodb') {
-    if (1 === 1) {
+    if (true) {
       mongoose.set('debug', true);
       mongoose.set('debug', { color: true });
     }
 
     mongoose.connect(connectString).then(_ => {
-      console.log(`Connect Mongodb Success PRO `, countConnect());
+      console.log(`Connect Mongodb Success:::`, countConnect());
     })
       .catch(err => {
         console.log('error:::::::: ', err.message);

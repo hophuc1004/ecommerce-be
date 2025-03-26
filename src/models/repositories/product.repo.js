@@ -1,7 +1,7 @@
 'use strict'
 
 const { Types } = require("mongoose");
-const { product } = require("../product.model");
+const { products: productModel } = require("../product.model");
 const { getSelectData, unGetSelectData, convertToObjectIdMongoDb } = require("../../utils");
 
 const rFindAllProductDraftForShop = async ({ query, limit, skip }) => {
@@ -13,48 +13,38 @@ const rFindAllProductPublishedForShop = async ({ query, limit, skip }) => {
 }
 
 const rPublishProductForShop = async ({ product_shop, product_id }) => {
-  const foundShop = await product.findOne({
-    product_shop: new Types.ObjectId(product_shop),
-    _id: new Types.ObjectId(product_id)
+  const foundShop = await productModel.findOne({
+    product_shop: convertToObjectIdMongoDb(product_shop),
+    _id: convertToObjectIdMongoDb(product_id)
   });
 
   if (!foundShop) return null;
   foundShop.is_draft = false;
   foundShop.is_published = true;
 
-  try {
-    await foundShop.save();
-    return 1; // Update successful
-  } catch (error) {
-    console.error('Error update published product:', error);
-    return 0; // Update failed
-  }
+  await foundShop.save();
+  return 1; // Update successful
 }
 
 const rUnPublishProductForShop = async ({ product_shop, product_id }) => {
-  const foundShop = await product.findOne({
-    product_shop: new Types.ObjectId(product_shop),
-    _id: new Types.ObjectId(product_id)
+  const foundShop = await productModel.findOne({
+    product_shop: convertToObjectIdMongoDb(product_shop),
+    _id: convertToObjectIdMongoDb(product_id)
   });
 
   if (!foundShop) return null;
   foundShop.is_draft = true;
   foundShop.is_published = false;
 
-  try {
-    await foundShop.save();
-    return 1; // Update successful
-  } catch (error) {
-    console.error('Error update published product:', error);
-    return 0; // Update failed
-  }
+  await foundShop.save();
+  return 1; // Update successful
 }
 
 const rSearchProductByUser = async ({ keySearch }) => {
-  const regexSearch = new RegExp(keySearch); // need to hit index for column usually search (name product, description)
-  const results = await product.find({
-    is_draft: true,
-    $text: { $search: regexSearch },
+  // const regexSearch = new RegExp(keySearch); // need to hit index for column usually search (name product, description)
+  const results = await productModel.find({
+    is_published: true,
+    $text: { $search: keySearch },
   }, { score: { $meta: 'textScore' } }) // search incorrect
     .sort({ score: { $meta: 'textScore' } })
     .lean()
@@ -63,15 +53,16 @@ const rSearchProductByUser = async ({ keySearch }) => {
 }
 
 const rFindAllProducts = async ({ limit, sort, page, filter, select }) => {
+  console.log('filter:', filter)
   const skip = (page - 1) * limit;
   const sortBy = sort === 'ctime' ? { _id: -1 } : { _id: 1 };
 
-  const products = await product.find(filter).sort(sortBy).skip(skip).limit(limit).select(getSelectData(select)).lean();
+  const products = await productModel.find(filter).sort(sortBy).skip(skip).limit(limit).select(getSelectData(select)).lean();
   return products;
 }
 
 const rFindProduct = async ({ product_id, unSelect }) => {
-  return await product.findById(product_id).select(unGetSelectData(unSelect));
+  return await productModel.findById(product_id).select(unGetSelectData(unSelect));
 }
 
 const updateProductById = async ({ productId, bodyUpdate, model, isNew = true }) => {
@@ -79,8 +70,8 @@ const updateProductById = async ({ productId, bodyUpdate, model, isNew = true })
 }
 
 const queryProduct = async ({ query, skip, limit }) => {
-  return await product.find(query)
-    .populate('product_shop', 'email name -_id')
+  return await productModel.find(query)
+    .populate('product_shop', 'email name -_id') // ref to shop that contain that product, email-name are pick field and -_id is exclude field
     .sort({ updatedAt: -1 })
     .skip(skip).limit(limit)
     .lean()
@@ -88,7 +79,7 @@ const queryProduct = async ({ query, skip, limit }) => {
 }
 
 const getProductById = async (productId) => {
-  return await product.findOne({ _id: convertToObjectIdMongoDb(productId) }).lean();
+  return await productModel.findOne({ _id: convertToObjectIdMongoDb(productId) }).lean();
 }
 
 const checkProductByServer = async (products) => {

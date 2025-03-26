@@ -1,4 +1,4 @@
-const { model, Schema, Types } = require('mongoose');
+const { model, Schema } = require('mongoose');
 
 const DOCUMENT_NAME = 'inventory';
 const COLLECTION_NAME = 'inventories';
@@ -11,7 +11,7 @@ const inventorySchema = new Schema({
   },
   inventory_location: {
     type: String,
-    default: 'unKnow'
+    default: 'unKnown location'
   },
   inventory_stock: {
     type: Number,

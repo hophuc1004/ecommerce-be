@@ -23,7 +23,7 @@ class InventoryService {
     };
 
     const options = { upsert: true, new: true };
-    return await inventoryModel.findOneAndUpdate(query, updateSet, options);
+    return await inventoryModel.findOneAndUpdate(query, updateSet, options).lean();
   }
 }
 

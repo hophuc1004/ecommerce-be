@@ -7,7 +7,7 @@ const StatusCode = {
 
 const ReasonStatusCode = {
   FORBIDDEN: 'Bad request error',
-  CONFLICT: 'Conflict'
+  CONFLICT: 'Conflict error'
 }
 
 const { StatusCodes, ReasonPhrases } = require('../utils/httpStatusCode')

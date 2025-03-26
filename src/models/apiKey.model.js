@@ -1,7 +1,7 @@
 'use strict'
 // store token, time, expire
 
-const { model, Schema, Types } = require('mongoose');
+const { model, Schema } = require('mongoose');
 
 const DOCUMENT_NAME = 'apiKey';
 const COLLECTION_NAME = 'apiKeys';

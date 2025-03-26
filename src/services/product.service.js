@@ -2,11 +2,12 @@
 'use strict'
 
 const { BadRequestError } = require("../core/error.response");
-const { clothes, electronics, product, furnitures } = require("../models/product.model");
+const { clothes, electronics, products: productModel, furnitures } = require("../models/product.model");
 const { insertInventory } = require("../models/repositories/inventory.repo");
 const { rFindAllProductDraftForShop, rFindAllProductPublishedForShop, rPublishProductForShop, rUnPublishProductForShop, rSearchProductByUser, rFindAllProducts, rFindProduct, updateProductById } = require("../models/repositories/product.repo");
 const { removeUndefinedObject, updateNestedObjectParser } = require("../utils");
 const { sPushNotiToSystem } = require("./notification.service");
+const productTypes = require('../shared/helper/product.config')
 
 // define factory class to create product
 class ProductFactory {
@@ -40,10 +41,18 @@ class ProductFactory {
 
   static sRegisterProductType(product_type, classRef) {
     ProductFactory.productRegistry[product_type] = classRef;
+    console.log('productRegistry:', this.productRegistry)
   }
 
   static async sCreateProduct(product_type, payload) {
+    console.log('000000000');
+    console.log('AAAAAAAA::: ', ProductFactory.productRegistry);
+    console.log('product_type:', product_type)
+    console.log('payload:', payload)
     const productClass = ProductFactory.productRegistry[product_type];
+    console.log('productClass:', productClass)
+    console.log('BBBBBBB::: ', ProductFactory.productRegistry);
+
     if (!productClass) throw new BadRequestError(`Invalid Product Types ${product_type}`);
 
     return new productClass(payload).createProduct();
@@ -110,7 +119,8 @@ class Product {
     product_type,
     product_shop,
     product_attributes,
-    product_quantity
+    product_quantity,
+    product_location
   }) {
 
     this.product_name = product_name;
@@ -121,17 +131,21 @@ class Product {
     this.product_shop = product_shop;
     this.product_attributes = product_attributes;
     this.product_quantity = product_quantity;
+    this.product_location = product_location
   }
 
   // create new Product
-  async createProduct(productId) {
-    const newProduct = await product.create({ ...this, _id: productId });
+  // for parent
+  async createProductParent(productId) {
+    console.log('2222222');
+    const newProduct = await productModel.create({ ...this, _id: productId });
     if (newProduct) {
       // add product_stock in inventory collection
       await insertInventory({
         productId: newProduct._id,
         stock: this.product_quantity,
-        shopId: this.product_shop
+        shopId: this.product_shop,
+        location: this.product_location
       })
 
       // push noti to system collection
@@ -153,7 +167,7 @@ class Product {
 
   // update product parent
   async updateProduct(productId, bodyUpdate) {
-    return await updateProductById({ productId, bodyUpdate, model: product });
+    return await updateProductById({ productId, bodyUpdate, model: productModel });
   }
 }
 
@@ -161,11 +175,13 @@ class Product {
 // Clothes
 class Clothes extends Product {
   async createProduct() {
+    console.log('111111111');
+    console.log('111111111this.product_shop:', this.product_shop)
     const newClothing = await clothes.create({ ...this.product_attributes, product_shop: this.product_shop });
 
     if (!newClothing) throw new BadRequestError('Create newClothing error!');
 
-    const newProduct = await super.createProduct(newClothing._id);
+    const newProduct = await super.createProductParent(newClothing._id); // for parent
     if (!newProduct) throw new BadRequestError('Create newProduct error!');
 
     return newProduct;
@@ -173,10 +189,10 @@ class Clothes extends Product {
 
   async updateProduct(productId) {
     //1. Remove attribute have null or undefined value
-    // update before remove
     const updateNest = updateNestedObjectParser(this);
+    //2. Remove null and undefined if user pass undefined value for field
     const objectParams = removeUndefinedObject(updateNest);
-    //2. Check where need update
+    //3. Check where need update
     if (objectParams.product_attributes) {
       // update child
       await updateProductById({ productId, bodyUpdate: updateNestedObjectParser(objectParams.product_attributes), model: clothes });
@@ -193,7 +209,7 @@ class Electronics extends Product {
 
     if (!newElectronic) throw new BadRequestError('Create newElectronic error!');
 
-    const newProduct = await super.createProduct(newElectronic._id);
+    const newProduct = await super.createProductParent(newElectronic._id); // for parent
     if (!newProduct) throw new BadRequestError('Create newProduct error!');
 
     return newProduct;
@@ -202,11 +218,12 @@ class Electronics extends Product {
   async updateProduct(productId, bodyUpdate) {
     //1. Remove attribute have null or undefined value
     const updateNest = updateNestedObjectParser(this);
+    //2. Remove null and undefined if user pass undefined value for field
     const objectParams = removeUndefinedObject(updateNest);
-    //2. Check where need update
+    //3. Check where need update
     if (objectParams.product_attributes) {
       // update child
-      await updateProductById({ productId, bodyUpdate: updateNestedObjectParser(objectParams.product_attributes), model: clothes });
+      await updateProductById({ productId, bodyUpdate: updateNestedObjectParser(objectParams.product_attributes), model: electronics });
     }
     const updateProduct = await super.updateProduct(productId, updateNestedObjectParser(objectParams));
     return updateProduct;
@@ -220,7 +237,7 @@ class Furnitures extends Product {
 
     if (!newFurniture) throw new BadRequestError('Create newFurniture error!');
 
-    const newProduct = await super.createProduct(newFurniture._id);
+    const newProduct = await super.createProductParent(newFurniture._id); // for parent
     if (!newProduct) throw new BadRequestError('Create newProduct error!');
 
     return newProduct;
@@ -230,18 +247,25 @@ class Furnitures extends Product {
   async updateProduct(productId, bodyUpdate) {
     //1. Remove attribute have null or undefined value
     const updateNest = updateNestedObjectParser(this);
+    //2. Remove null and undefined if user pass undefined value for field
     const objectParams = removeUndefinedObject(updateNest);
-    //2. Check where need update
+    //3. Check where need update
     if (objectParams.product_attributes) {
       // update child
-      await updateProductById({ productId, bodyUpdate: updateNestedObjectParser(objectParams.product_attributes), model: clothes });
+      await updateProductById({ productId, bodyUpdate: updateNestedObjectParser(objectParams.product_attributes), model: furnitures });
     }
+    // update parent
     const updateProduct = await super.updateProduct(productId, updateNestedObjectParser(objectParams));
     return updateProduct;
   }
 }
 
 // register product types
+for (const key in productTypes) {
+  console.log('key:', key)
+  // ProductFactory.sRegisterProductType(key, key); // for add or remove a lot of productTypes
+}
+
 ProductFactory.sRegisterProductType('Electronics', Electronics);
 ProductFactory.sRegisterProductType('Clothes', Clothes);
 ProductFactory.sRegisterProductType('Furnitures', Furnitures);

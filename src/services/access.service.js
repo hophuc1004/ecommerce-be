@@ -1,9 +1,8 @@
 'use strict'
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const shopModel = require("../models/shop.model");
 const KeyTokenService = require('./keyToken.service');
-const { createTokenPair, verifyJWT } = require('../auth/authUtils');
+const { createTokenPair } = require('../auth/authUtils');
 const { getIntoData } = require('../utils');
 const { BadRequestError, AuthFailureError, ForbiddenError } = require('../core/error.response');
 const ShopService = require('./shop.service');
@@ -16,40 +15,6 @@ const RoleShop = {
 }
 
 class AccessService {
-
-  static handleRefreshToken = async ({ refreshToken, user, keyStore }) => {
-
-    const { userId, email } = user;
-
-    if (keyStore?.refreshTokensUsed?.includes(refreshToken)) {
-      await KeyTokenService.deleteKeyById(userId);
-      throw new ForbiddenError(`Some thing wrong! Please re-login again!`);
-    };
-
-    if (keyStore?.refreshToken !== refreshToken) throw new AuthFailureError(`Shop not register 1!`);
-
-    const foundShop = await ShopService.findByEmail({ email });
-
-    if (!foundShop) throw new AuthFailureError(`Shop not register 2!`)
-
-    // create new tokens pair
-    const tokens = await createTokenPair({ userId, email }, keyStore.privateKey, keyStore.publicKey);
-
-    // update tokens
-
-    const updateTokens = await KeyTokenService.updateKeyById(userId, refreshToken, { refreshToken: tokens.refreshToken });
-
-    return {
-      user,
-      tokens
-    }
-  }
-
-  static logout = async (keyStore) => {
-    const delKeyWhenLogout = await KeyTokenService.removeTokenById(keyStore._id);
-
-    return delKeyWhenLogout;
-  }
 
   /*
     1 - check email in dbs
@@ -85,10 +50,10 @@ class AccessService {
     //5.
     // save publicKey and privateKey to db
     await KeyTokenService.createKeyToken({
-      refreshToken: tokens.refreshToken,
-      privateKey,
+      userId,
       publicKey,
-      userId
+      privateKey,
+      refreshToken: tokens.refreshToken
     })
 
     return {
@@ -99,7 +64,7 @@ class AccessService {
 
   static signUp = async ({ name, email, password }) => {
     // step1: check email exist??
-    const shop = await shopModel.findOne({ email }).lean() // if do not include .lean(), return object of mongoose when query, it's very heavy, when have .lean(), decrease object to light
+    const shop = await ShopService.findByEmail({ email }) // if do not include .lean(), return object of mongoose when query, it's very heavy, when have .lean(), decrease object to light
 
     if (shop) {
       throw new BadRequestError('Error: Shop already exist');
@@ -107,7 +72,7 @@ class AccessService {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const newShop = await shopModel.create({
+    const newShop = await ShopService.createNewShop({
       name, email, password: passwordHash, roles: RoleShop.SHOP
     });
 
@@ -119,23 +84,17 @@ class AccessService {
       const publicKey = crypto.randomBytes(64).toString('hex');
       const privateKey = crypto.randomBytes(64).toString('hex');
 
-      // save publicKey and privateKey to db
-      const keyStoreInDb = await KeyTokenService.createKeyToken({
-        userId: newShop._id,
-        publicKey,
-        privateKey
-      });
-
-      if (!keyStoreInDb) {
-        // return {
-        //   code: 'xxxx',
-        //   message: 'keyStore error!'
-        // }
-        throw new BadRequestError('Error: keyStore error');
-      }
 
       // created token pair
       const tokenPair = await createTokenPair({ userId: newShop._id, email }, publicKey, privateKey);
+
+      // save publicKey and privateKey to db
+      await KeyTokenService.createKeyToken({
+        userId: newShop._id,
+        publicKey,
+        privateKey,
+        refreshToken: tokenPair?.refreshToken
+      });
 
       return {
         code: 201,
@@ -143,6 +102,42 @@ class AccessService {
         tokenPair
       }
     };
+  }
+
+  static handleRefreshToken = async ({ refreshToken, user, keyStore }) => {
+
+    const { userId, email } = user;
+
+    // should create new pair token to security if hacker have token
+
+    if (keyStore?.refreshTokensUsed?.includes(refreshToken)) {
+      await KeyTokenService.deleteKeyById(userId);
+      throw new ForbiddenError(`Some thing wrong! Please re-login again!`);
+    };
+
+    if (keyStore?.refreshToken !== refreshToken) throw new AuthFailureError(`Shop not register 1!`);
+
+    const foundShop = await ShopService.findByEmail({ email });
+
+    if (!foundShop) throw new AuthFailureError(`Shop not register 2!`)
+
+    // create new tokens pair
+    const tokens = await createTokenPair({ userId, email }, keyStore.privateKey, keyStore.publicKey);
+
+    // update tokens
+
+    await KeyTokenService.updateKeyById(userId, refreshToken, { refreshToken: tokens.refreshToken });
+
+    return {
+      user,
+      tokens
+    }
+  }
+
+  static logout = async (keyStore) => {
+    const delKeyWhenLogout = await KeyTokenService.removeTokenById(keyStore._id);
+
+    return delKeyWhenLogout;
   }
 }
 

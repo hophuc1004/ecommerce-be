@@ -1,12 +1,12 @@
 'use strict'
 
-const { SuccessResponse } = require("../core/success.response");
-const ProductService = require('../services/product.service')
+const { SuccessResponse, CREATED_RESPONSE } = require("../core/success.response");
+const ProductService = require('../services/product.service');
 
 class ProductController {
 
   createProduct = async (req, res, next) => {
-    new SuccessResponse({
+    new CREATED_RESPONSE({
       message: 'Create product success!',
       metadata: await ProductService.sCreateProduct(req.body.product_type, {
         ...req.body,

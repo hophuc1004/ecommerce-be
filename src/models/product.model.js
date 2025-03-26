@@ -6,6 +6,7 @@ const slugify = require('slugify');
 const DOCUMENT_NAME = 'product';
 const COLLECTION_NAME = 'products';
 
+// this is the parent structure of product
 // Declare the Schema of the Mongo model
 const productSchema = new Schema({
   product_name: {
@@ -81,6 +82,7 @@ productSchema.pre('save', function (next) {
   next();
 })
 
+// this is child for detail of product, it is still a product but for detail
 // define the product type = clothes
 const clothesSchema = new Schema({
   brand: {
@@ -95,13 +97,14 @@ const clothesSchema = new Schema({
   },
   product_shop: {
     type: Schema.Types.ObjectId,
-    ref: 'Shop'
+    ref: 'shop'
   }
 }, {
   collection: 'clothes',
   timestamps: true
 })
 
+// this is child for detail of product, it is still a product but for detail
 // define the product type = electronic
 const electronicSchema = new Schema({
   manufacturer: {
@@ -123,6 +126,7 @@ const electronicSchema = new Schema({
   timestamps: true
 })
 
+// this is child for detail of product, it is still a product but for detail
 // define the product type = furniture
 const furnitureSchema = new Schema({
   brand: {
@@ -147,7 +151,7 @@ const furnitureSchema = new Schema({
 
 // Export the model
 module.exports = {
-  product: model(DOCUMENT_NAME, productSchema),
+  products: model(DOCUMENT_NAME, productSchema),
   clothes: model('Clothes', clothesSchema),
   electronics: model('Electronics', electronicSchema),
   furnitures: model('Furnitures', furnitureSchema),

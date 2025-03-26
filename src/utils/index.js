@@ -1,5 +1,6 @@
 // contain function, class, feature that we usually use
 'use strict'
+const crypto = require('crypto');
 
 const { isNull, isArray } = require('lodash');
 const pick = require('lodash/pick');
@@ -29,6 +30,21 @@ const removeUndefinedObject = (object = {}) => {
   return object;
 }
 
+/*
+const objExample = {
+  a: {
+    b: 1,
+    c: 2
+  },
+  d: 3
+}
+
+expect:
+a.b: 1,
+a.c: 2,
+d: 3
+*/
+
 const updateNestedObjectParser = (obj) => {
   const final = {};
   Object.keys(obj || {}).forEach(key => {
@@ -43,11 +59,14 @@ const updateNestedObjectParser = (obj) => {
   return final;
 }
 
+const randomImageName = () => crypto.randomBytes(16).toString('hex');
+
 module.exports = {
   getIntoData,
   getSelectData,
   unGetSelectData,
   removeUndefinedObject,
   updateNestedObjectParser,
-  convertToObjectIdMongoDb
+  convertToObjectIdMongoDb,
+  randomImageName
 }

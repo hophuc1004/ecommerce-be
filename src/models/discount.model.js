@@ -1,6 +1,6 @@
 'use strict' // reduce memory leak
 
-const { model, Schema, Types } = require('mongoose');
+const { model, Schema } = require('mongoose');
 
 const DOCUMENT_NAME = 'discount';
 const COLLECTION_NAME = 'discounts';
@@ -17,21 +17,21 @@ const discountSchema = new Schema({
   },
   discount_type: {
     type: String,
-    default: 'fixed_amount' // ['fixed amount', 'percentage']
+    default: 'fixed' // ['fixed', 'percentage'],
   },
   discount_value: {
     type: Number,
-    required: true // 10.000 -> 'fixed amount' | 10 -> 'percentage'
+    required: true // 10.000 -> 'fixed' | 10 -> 'percentage'
   },
   discount_code: {
     type: String,
     required: true
   },
-  discount_start_date: { // when user add product to cart, this for store
+  discount_start_date: { // date start when user add product to cart, this for store
     type: Date,
     required: true
   },
-  discount_end_date: {
+  discount_end_date: { // date end
     type: Date,
     required: true
   },
@@ -68,7 +68,7 @@ const discountSchema = new Schema({
     required: true,
     enum: ['all', 'specific']
   },
-  discount_product_ids: { // the number of product to apply this discount
+  discount_product_ids: { // the list of product ids to apply this discount
     type: Array,
     default: []
   }
